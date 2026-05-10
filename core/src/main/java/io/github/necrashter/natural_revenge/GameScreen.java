@@ -28,7 +28,6 @@ import com.badlogic.gdx.utils.Queue;
 import io.github.necrashter.natural_revenge.ui.GameOverDialog;
 import io.github.necrashter.natural_revenge.ui.TouchPad;
 import io.github.necrashter.natural_revenge.world.GameWorld;
-import io.github.necrashter.natural_revenge.world.GameWorldRenderer;
 import io.github.necrashter.natural_revenge.world.LowResWorldRenderer;
 import io.github.necrashter.natural_revenge.world.levels.ScriptedEvent;
 import io.github.necrashter.natural_revenge.world.player.PlayerWeapon;
@@ -39,7 +38,7 @@ public class GameScreen implements Screen {
     final Main game;
 
     public final GameWorld world;
-    private final GameWorldRenderer worldRenderer;
+    private final LowResWorldRenderer worldRenderer;
 
     private final Stage stage;
 
@@ -68,7 +67,6 @@ public class GameScreen implements Screen {
         this.world = world;
         world.screen = this;
         worldRenderer = new LowResWorldRenderer(world);
-//        worldRenderer = world;
 
         stage = new Stage(Main.createViewport());
 
@@ -204,7 +202,7 @@ public class GameScreen implements Screen {
                 button.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        new OptionsDialog(world).show(stage);
+                        new OptionsDialog(world, worldRenderer).show(stage);
                     }
                 });
                 pauseDialog.getButtonTable().add(button).height(button.getHeight()).width(button.getWidth()).row();

@@ -13,7 +13,6 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import io.github.necrashter.natural_revenge.world.GameWorld;
-import io.github.necrashter.natural_revenge.world.GameWorldRenderer;
 import io.github.necrashter.natural_revenge.world.LowResWorldRenderer;
 import io.github.necrashter.natural_revenge.world.levels.LevelMenuBg;
 
@@ -22,7 +21,7 @@ public class MenuScreen implements Screen {
     private final Stage stage;
 
     private final GameWorld world;
-    private final GameWorldRenderer worldRenderer;
+    private final LowResWorldRenderer worldRenderer;
 
     public MenuScreen(final Main game) {
         this.game = game;
@@ -50,7 +49,7 @@ public class MenuScreen implements Screen {
         optionsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                new OptionsDialog(null).show(stage);
+                new OptionsDialog(null, worldRenderer).show(stage);
             }
         });
 

@@ -26,6 +26,7 @@ public class Main extends Game {
     public static float sfxVolume = 1.0f;
     public static boolean invertMouseY = false;
     public static boolean disableAnimations = false;
+    public static int renderResolutionY = 720;
     public static float mouseSensitivity = 1.0f; // defaults
     public static float fov = 90f; // default FOV
     private final PostInit postInit;
@@ -68,6 +69,7 @@ public class Main extends Game {
         Main.music.setVolume(preferences.getFloat("musicVolume", Main.music.getVolume()));
         Main.invertMouseY = preferences.getBoolean("invertMouseY", Main.invertMouseY);
         Main.disableAnimations = preferences.getBoolean("disableAnimations", Main.disableAnimations);
+        Main.renderResolutionY = preferences.getInteger("renderResolutionY", Main.renderResolutionY);
         Main.mouseSensitivity = preferences.getFloat("mouseSensitivity", Main.mouseSensitivity);
         Main.fov = preferences.getFloat("fov", Main.fov);
     }

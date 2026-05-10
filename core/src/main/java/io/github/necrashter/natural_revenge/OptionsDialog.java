@@ -9,9 +9,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import io.github.necrashter.natural_revenge.world.GameWorld;
+import io.github.necrashter.natural_revenge.world.LowResWorldRenderer;
 
 public class OptionsDialog extends Dialog {
-    public OptionsDialog(GameWorld world) {
+    public OptionsDialog(GameWorld world, LowResWorldRenderer renderer) {
         super("Options", Main.skin);
 
         // Layout inside dialog
@@ -150,6 +151,32 @@ public class OptionsDialog extends Dialog {
         content.row().padTop(20);
 
         content.add(fovRow).left();
+        content.row().padTop(20);
+
+        // --- Resolution Slider ---
+        final Label resolutionLabel = new Label("Resolution:", Main.skin);
+        final Label resolutionValue = new Label(Main.renderResolutionY + "p", Main.skin);
+
+        final Slider resolutionSlider = new Slider(240f, 720f, 1f, false, Main.skin);
+        resolutionSlider.setValue(Main.renderResolutionY);
+        resolutionSlider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                int resY = (int) resolutionSlider.getValue();
+                Main.renderResolutionY = resY;
+                Main.preferences.putInteger("renderResolutionY", resY);
+                resolutionValue.setText(resY + "p");
+                if (renderer != null) {
+                    renderer.setResolution(resY);
+                }
+            }
+        });
+
+        Table resolutionRow = new Table();
+        resolutionRow.add(resolutionLabel).padRight(10);
+        resolutionRow.add(resolutionSlider).width(200).padRight(10);
+        resolutionRow.add(resolutionValue).width(50);
+        content.add(resolutionRow).left();
 
         button("Close");
     }

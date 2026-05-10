@@ -1,5 +1,6 @@
 package io.github.necrashter.natural_revenge.world;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -9,14 +10,13 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import io.github.necrashter.natural_revenge.Main;
 
 public class LowResWorldRenderer implements GameWorldRenderer {
     public GameWorld world;
 
-    //    public int resolutionX = 1280/2;
-//    public int resolutionY = 720/2;
-    private int resolutionX = 1280;
-    private int resolutionY = 720;
+    private int resolutionX;
+    private int resolutionY;
     FrameBuffer worldFrameBuffer, viewFrameBuffer;
     SpriteBatch spriteBatch = new SpriteBatch();
     Camera camera;
@@ -26,6 +26,8 @@ public class LowResWorldRenderer implements GameWorldRenderer {
 
     public LowResWorldRenderer(GameWorld world) {
         this.world = world;
+        resolutionY = Main.renderResolutionY;
+        resolutionX = resolutionY * 16 / 9;
 
         worldFrameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, resolutionX, resolutionY, true);
         worldFrameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
@@ -34,8 +36,28 @@ public class LowResWorldRenderer implements GameWorldRenderer {
 
         camera = new OrthographicCamera(resolutionX, resolutionY);
         viewport = new StretchViewport(resolutionX, resolutionY);
-//        viewport = new FitViewport(resolutionX, resolutionY, camera);
-//        viewport = new ScreenViewport();
+
+        renderX = -resolutionX / 2.0f;
+        renderY = -resolutionY / 2.0f;
+        renderWidth = resolutionX;
+        renderHeight = resolutionY;
+    }
+
+    public void setResolution(int resY) {
+        resolutionY = resY;
+        resolutionX = resY * 16 / 9;
+
+        worldFrameBuffer.dispose();
+        viewFrameBuffer.dispose();
+
+        worldFrameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, resolutionX, resolutionY, true);
+        worldFrameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        viewFrameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, resolutionX, resolutionY, true);
+        viewFrameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+        camera = new OrthographicCamera(resolutionX, resolutionY);
+        viewport = new StretchViewport(resolutionX, resolutionY);
+        viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
         renderX = -resolutionX / 2.0f;
         renderY = -resolutionY / 2.0f;
