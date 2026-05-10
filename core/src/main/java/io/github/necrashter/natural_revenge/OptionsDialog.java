@@ -12,6 +12,10 @@ import io.github.necrashter.natural_revenge.world.GameWorld;
 import io.github.necrashter.natural_revenge.world.LowResWorldRenderer;
 
 public class OptionsDialog extends Dialog {
+    private static final int COL_LABEL = 220;
+    private static final int COL_SLIDER = 300;
+    private static final int COL_VALUE = 50;
+
     public OptionsDialog(GameWorld world, LowResWorldRenderer renderer) {
         super("Options", Main.skin);
 
@@ -37,9 +41,9 @@ public class OptionsDialog extends Dialog {
 
             // Layout Volume
             Table volumeRow = new Table();
-            volumeRow.add(volumeLabel).padRight(10);
-            volumeRow.add(volumeSlider).width(200).padRight(10);
-            volumeRow.add(volumeValue).width(50);
+            volumeRow.add(volumeLabel).width(COL_LABEL).padRight(10);
+            volumeRow.add(volumeSlider).width(COL_SLIDER).padRight(10);
+            volumeRow.add(volumeValue).width(COL_VALUE);
             content.add(volumeRow).left();
             content.row().padTop(20);
         }
@@ -61,9 +65,9 @@ public class OptionsDialog extends Dialog {
 
             // Layout Volume
             Table volumeRow = new Table();
-            volumeRow.add(volumeLabel).padRight(10);
-            volumeRow.add(volumeSlider).width(200).padRight(10);
-            volumeRow.add(volumeValue).width(50);
+            volumeRow.add(volumeLabel).width(COL_LABEL).padRight(10);
+            volumeRow.add(volumeSlider).width(COL_SLIDER).padRight(10);
+            volumeRow.add(volumeValue).width(COL_VALUE);
             content.add(volumeRow).left();
             content.row().padTop(20);
         }
@@ -132,9 +136,9 @@ public class OptionsDialog extends Dialog {
 
         // Layout FOV
         Table fovRow = new Table();
-        fovRow.add(fovLabel).padRight(10);
-        fovRow.add(fovSlider).width(200).padRight(10);
-        fovRow.add(fovValue).width(50);
+        fovRow.add(fovLabel).width(COL_LABEL).padRight(10);
+        fovRow.add(fovSlider).width(COL_SLIDER).padRight(10);
+        fovRow.add(fovValue).width(COL_VALUE);
 
 
         content.add(disableAnimationsCheckbox).left();
@@ -144,9 +148,9 @@ public class OptionsDialog extends Dialog {
         content.row().padTop(20);
 
         Table sensitivityRow = new Table();
-        sensitivityRow.add(sensitivityLabel).padRight(10);
-        sensitivityRow.add(sensitivitySlider).width(200).padRight(10);
-        sensitivityRow.add(mouseSensitivityLabel).width(50);
+        sensitivityRow.add(sensitivityLabel).width(COL_LABEL).padRight(10);
+        sensitivityRow.add(sensitivitySlider).width(COL_SLIDER).padRight(10);
+        sensitivityRow.add(mouseSensitivityLabel).width(COL_VALUE);
         content.add(sensitivityRow).left();
         content.row().padTop(20);
 
@@ -173,9 +177,9 @@ public class OptionsDialog extends Dialog {
         });
 
         Table resolutionRow = new Table();
-        resolutionRow.add(resolutionLabel).padRight(10);
-        resolutionRow.add(resolutionSlider).width(200).padRight(10);
-        resolutionRow.add(resolutionValue).width(50);
+        resolutionRow.add(resolutionLabel).width(COL_LABEL).padRight(10);
+        resolutionRow.add(resolutionSlider).width(COL_SLIDER).padRight(10);
+        resolutionRow.add(resolutionValue).width(COL_VALUE);
         content.add(resolutionRow).left();
 
         button("Close");
