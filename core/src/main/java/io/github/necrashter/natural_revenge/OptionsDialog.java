@@ -67,6 +67,17 @@ public class OptionsDialog extends Dialog {
             content.row().padTop(20);
         }
 
+        // Disable Animations
+        final CheckBox disableAnimationsCheckbox = new CheckBox(" Disable Animations (requires restart)", Main.skin);
+        disableAnimationsCheckbox.setChecked(Main.disableAnimations);
+        disableAnimationsCheckbox.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Main.disableAnimations = disableAnimationsCheckbox.isChecked();
+                Main.preferences.putBoolean("disableAnimations", Main.disableAnimations);
+            }
+        });
+
         // Invert Mouse
         final CheckBox invertMouseCheckbox = new CheckBox(" Invert Mouse Y", Main.skin);
         invertMouseCheckbox.setChecked(Main.invertMouseY);
@@ -124,6 +135,9 @@ public class OptionsDialog extends Dialog {
         fovRow.add(fovSlider).width(200).padRight(10);
         fovRow.add(fovValue).width(50);
 
+
+        content.add(disableAnimationsCheckbox).left();
+        content.row().padTop(20);
 
         content.add(invertMouseCheckbox).left();
         content.row().padTop(20);

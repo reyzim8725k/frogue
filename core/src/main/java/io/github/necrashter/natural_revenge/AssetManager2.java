@@ -110,8 +110,8 @@ public class AssetManager2 extends AssetManager {
     public AssetManager2() {
         super();
         load("models/tree.g3db", Model.class);
-        load("models/npcs.g3db", Model.class);
-        load("models/frog.g3db", Model.class);
+        load(Main.disableAnimations ? "models/npcs-no-anim.g3db" : "models/npcs.g3db", Model.class);
+        load(Main.disableAnimations ? "models/frog-no-anim.g3db" : "models/frog.g3db", Model.class);
         load("models/frog-particle.g3db", Model.class);
         load("models/weapons.g3db", Model.class);
         load("models/medkit.g3db", Model.class);
@@ -139,8 +139,8 @@ public class AssetManager2 extends AssetManager {
 
     public void done() {
         treeModel = get("models/tree.g3db", Model.class);
-        npcModel = Main.assets.get("models/npcs.g3db", Model.class);
-        frogModel = Main.assets.get("models/frog.g3db", Model.class);
+        npcModel = Main.assets.get(Main.disableAnimations ? "models/npcs-no-anim.g3db" : "models/npcs.g3db", Model.class);
+        frogModel = Main.assets.get(Main.disableAnimations ? "models/frog-no-anim.g3db" : "models/frog.g3db", Model.class);
         weaponsModel = get("models/weapons.g3db", Model.class);
         frogParticleModel = Main.assets.get("models/frog-particle.g3db", Model.class);
         medkitModel = Main.assets.get("models/medkit.g3db", Model.class);
