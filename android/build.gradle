@@ -35,8 +35,8 @@ android {
     minSdkVersion 19
     targetSdkVersion 35
     multiDexEnabled true
-    versionCode 3
-    versionName "1.0.1a"
+    versionCode 4
+    versionName "1.0.2"
   }
   compileOptions {
     sourceCompatibility "8"
