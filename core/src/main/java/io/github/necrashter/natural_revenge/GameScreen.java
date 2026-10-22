@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Queue;
 
@@ -220,7 +221,7 @@ public class GameScreen implements Screen {
             }
         }
         Gdx.input.setInputProcessor(new InputMultiplexer(
-                stage, world.player.inputAdapter
+                world.player.inputAdapter, stage
         ));
         if (Main.isMobile()) {
             movementTouch = new TouchPad(Main.skin);
@@ -230,7 +231,10 @@ public class GameScreen implements Screen {
             movementTouchContainer.bottom().left().pad(20).size(touchpadSize);
             hudGroup.addActor(movementTouchContainer);
 
-            TextButton shootButton = new TextButton("SHOOT", Main.skin);
+            TextButton.TextButtonStyle shootStyle = new TextButton.TextButtonStyle(Main.skin.get(TextButton.TextButtonStyle.class));
+            shootStyle.up = new TextureRegionDrawable(new com.badlogic.gdx.graphics.g2d.TextureRegion(Main.assets.shootButton));
+            shootStyle.down = shootStyle.up;
+            TextButton shootButton = new TextButton("SHOOT", shootStyle);
             shootButton.addListener(new InputListener() {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -247,7 +251,7 @@ public class GameScreen implements Screen {
             });
             Container<TextButton> shootButtonContainer = new Container<>(shootButton);
             shootButtonContainer.setFillParent(true);
-            shootButtonContainer.pad(40).align(Align.bottomRight);
+            shootButtonContainer.size(220f).pad(30f).align(Align.bottomRight);
             hudGroup.addActor(shootButtonContainer);
 
             TextButton menuButton = new TextButton("Menu", Main.skin);

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.Attribute;
@@ -41,6 +42,9 @@ public class AssetManager2 extends AssetManager {
     public Texture bulletTrace = new Texture(Gdx.files.internal("textures/trace.png"));
     public Texture bottomGrad = new Texture(Gdx.files.internal("textures/bottomGrad.png"));
     public Texture hurtOverlay = new Texture(Gdx.files.internal("textures/hurtOverlay.png"));
+    public Texture shootButton = new Texture(Gdx.files.internal("shoot_button.png"));
+    public Texture whitePixel;
+    public TextureRegion whitePixelRegion;
 
     public Sound[] swooshes = new Sound[] {
             Gdx.audio.newSound(Gdx.files.internal("sounds/swoosh0.ogg")),
@@ -109,6 +113,12 @@ public class AssetManager2 extends AssetManager {
 
     public AssetManager2() {
         super();
+        Pixmap pixel = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pixel.setColor(1f, 1f, 1f, 1f);
+        pixel.fill();
+        whitePixel = new Texture(pixel);
+        whitePixelRegion = new TextureRegion(whitePixel);
+        pixel.dispose();
         load("models/tree.g3db", Model.class);
         load(Main.disableAnimations ? "models/npcs-no-anim.g3db" : "models/npcs.g3db", Model.class);
         load(Main.disableAnimations ? "models/frog-no-anim.g3db" : "models/frog.g3db", Model.class);

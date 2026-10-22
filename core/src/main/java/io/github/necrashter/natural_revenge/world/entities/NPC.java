@@ -1,6 +1,7 @@
 package io.github.necrashter.natural_revenge.world.entities;
 
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
+import com.badlogic.gdx.graphics.g3d.decals.Decal;
 import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
@@ -25,6 +26,9 @@ public class NPC extends GameEntity implements Pool.Poolable {
     final Vector3 right = new Vector3();
 
     AnimationController animationController;
+    private final Decal healthBarBackground = Decal.newDecal(0.85f, 0.08f, Main.assets.whitePixelRegion, true);
+    private final Decal healthBarFill = Decal.newDecal(0.85f, 0.055f, Main.assets.whitePixelRegion, true);
+    private final Vector3 healthBarPosition = new Vector3();
     boolean animationJustEnded = false;
     AnimationController.AnimationListener animationListener = new AnimationController.AnimationListener() {
         @Override
@@ -58,11 +62,34 @@ public class NPC extends GameEntity implements Pool.Poolable {
     public void render(GameWorld world) {
         if (isInViewDistance(world.cam, world.viewDistance) && isVisible(world.cam)) {
             world.modelBatch.render(modelInstance, world.environment);
+            if (!dead && isZombieLike()) {
+                renderHealthBar(world);
+            }
             world.visibleCount++;
         }
         if (!decal.decayed) {
             world.decalBatch.add(decal);
         }
+    }
+
+    private boolean isZombieLike() {
+        return this instanceof Zombie || this instanceof PistolZombie || this instanceof RifleZombie
+                || this instanceof ZombieBossBase;
+    }
+
+    private void renderHealthBar(GameWorld world) {
+        float ratio = MathUtils.clamp(health / Math.max(1f, maxHealth), 0f, 1f);
+        healthBarPosition.set(hitBox.position.x, hitBox.position.y + hitBox.radius + 0.42f, hitBox.position.z);
+        healthBarBackground.setDimensions(0.85f, 0.08f);
+        healthBarBackground.setPosition(healthBarPosition);
+        healthBarBackground.setRotation(world.cam.direction, world.cam.up);
+        healthBarBackground.setColor(0.12f, 0.01f, 0.01f, 0.95f);
+        world.decalBatch.add(healthBarBackground);
+        healthBarFill.setDimensions(0.85f * ratio, 0.055f);
+        healthBarFill.setPosition(healthBarPosition);
+        healthBarFill.setRotation(world.cam.direction, world.cam.up);
+        healthBarFill.setColor(0.1f, 1f, 0.12f, 1f);
+        world.decalBatch.add(healthBarFill);
     }
 
     public boolean removeOnDeath = true;

@@ -74,44 +74,36 @@ public class Player extends GameEntity {
     }
 
     public class MobileInputAdapter extends PlayerInput {
-        private int lastButton = -1;
-        private int touched;
-        private boolean multiTouch;
-        long lastTouch = 0;
+        private int movementPointer = -1;
+        private int lookPointer = -1;
+
+        private boolean isMovementTouch(int screenX, int screenY) {
+            return screenX < 320 && screenY > Gdx.graphics.getHeight() - 320;
+        }
 
         @Override
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-            long now = TimeUtils.millis();
-            if (now - lastTouch < 400) {
-                firing1 = true;
-            }
-            lastTouch = now;
-            touched |= (1 << pointer);
-            multiTouch = !MathUtils.isPowerOfTwo(touched);
-            if (multiTouch) {
-                lastButton = -1;
-            } else if (lastButton < 0) {
+            if (isMovementTouch(screenX, screenY)) {
+                movementPointer = pointer;
+            } else if (lookPointer < 0) {
+                lookPointer = pointer;
                 lastX = screenX;
                 lastY = screenY;
-                lastButton = button;
             }
             return false;
         }
 
         @Override
         public boolean touchDragged(int screenX, int screenY, int pointer) {
-            boolean result = super.touchDragged(screenX, screenY, pointer);
-            if (result || lastButton < 0) return result;
+            if (pointer == movementPointer || pointer != lookPointer) return false;
             movePointer(screenX, screenY);
             return true;
         }
 
         @Override
         public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-            touched &= ~(1 << pointer);
-            multiTouch = !MathUtils.isPowerOfTwo(touched);
-            if (button == lastButton) lastButton = -1;
-            firing1 = false;
+            if (pointer == movementPointer) movementPointer = -1;
+            if (pointer == lookPointer) lookPointer = -1;
             return false;
         }
     }
