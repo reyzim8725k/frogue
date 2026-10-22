@@ -15,6 +15,8 @@ import io.github.necrashter.natural_revenge.world.GameWorld;
 import io.github.necrashter.natural_revenge.world.geom.Shape;
 
 public class Firearm extends PlayerWeapon {
+    /** Development accessibility mode: the player's firearms never run out of ammunition. */
+    public static final boolean INFINITE_AMMO = true;
     public String name = "Firearm";
     Array<String> mods = new Array<>();
     public static final Vector3 temp1 = new Vector3();
@@ -103,7 +105,7 @@ public class Firearm extends PlayerWeapon {
             if (player.firing1) {
                 shoot();
                 remainingBurst = burstCount - 1;
-            } else if (player.shouldReload && ammoInClip < maxAmmoInClip) {
+            } else if (!INFINITE_AMMO && player.shouldReload && ammoInClip < maxAmmoInClip) {
                 player.shouldReload = false;
                 beginReload();
             }
@@ -127,7 +129,12 @@ public class Firearm extends PlayerWeapon {
             }
             if (progress > 1.0f) {
                 noSoundYet = true;
-                if (--ammoInClip > 0) {
+                if (INFINITE_AMMO) {
+                    ammoInClip = maxAmmoInClip;
+                } else {
+                    --ammoInClip;
+                }
+                if (ammoInClip > 0) {
                     progress = 0.0f;
                     if (isAuto) {
                         state = State.Ready;
@@ -263,8 +270,12 @@ public class Firearm extends PlayerWeapon {
     @Override
     public void buildText(StringBuilder stringBuilder) {
         stringBuilder.append(name).append('\n');
-        stringBuilder.append("Ammo: ").append(ammoInClip).append('/').append(maxAmmoInClip).append('\n');
-        if (clips != Integer.MAX_VALUE) {
+        if (INFINITE_AMMO) {
+            stringBuilder.append("Ammo: UNLIMITED\n");
+        } else {
+            stringBuilder.append("Ammo: ").append(ammoInClip).append('/').append(maxAmmoInClip).append('\n');
+        }
+        if (!INFINITE_AMMO && clips != Integer.MAX_VALUE) {
             stringBuilder.append("Clips: ").append(clips).append('\n');
         }
     }

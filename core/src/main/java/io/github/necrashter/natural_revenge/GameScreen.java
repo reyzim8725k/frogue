@@ -230,17 +230,22 @@ public class GameScreen implements Screen {
             movementTouchContainer.bottom().left().pad(20).size(touchpadSize);
             hudGroup.addActor(movementTouchContainer);
 
-            TextButton jumpButton = new TextButton("JUMP", Main.skin);
-            jumpButton.addListener(new InputListener() {
+            TextButton shootButton = new TextButton("SHOOT", Main.skin);
+            shootButton.addListener(new InputListener() {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     if (!world.player.inputAdapter.disabled) {
-                        world.player.jump();
+                        world.player.firing1 = true;
                     }
                     return true;
                 }
+
+                @Override
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                    world.player.firing1 = false;
+                }
             });
-            Container<TextButton> shootButtonContainer = new Container<>(jumpButton);
+            Container<TextButton> shootButtonContainer = new Container<>(shootButton);
             shootButtonContainer.setFillParent(true);
             shootButtonContainer.pad(40).align(Align.bottomRight);
             hudGroup.addActor(shootButtonContainer);

@@ -235,7 +235,7 @@ public class Level1Swamp extends GameWorld {
                 screen.subtitle("But the nature decided to avenge!\nNow the undead is rising here."),
                 screen.subtitle("There might be other threats in the region.\nGood luck!"),
                 screen.subtitle(Main.isMobile()
-                    ? "Use on-screen buttons.\nDrag to look around.\nDouble-tap + drag to shoot."
+                    ? "Use on-screen buttons.\nDrag to look around.\nPress SHOOT to fire."
                     : "Use WASD to move, mouse to aim.\nLeft mouse button: Shoot\nRight mouse button: Aim down sights\nTAB: Weapon stats\nR: Reload"),
                 new ScriptedEvent.OneTimeEvent() {
                     @Override
